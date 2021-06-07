@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 //import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import MovieListScreen from "./screens/MovieListScreen";
 import DetailsScreen from "./screens/DetailsScreen";
+import SearchScreen from "./screens/SearchScreen";
 
 const Stack = createStackNavigator();
 
@@ -32,25 +33,35 @@ const Stack = createStackNavigator();
 //   }
 // );
 
-export default class App extends React.Component {
-  // state = {
-  //   movies,
-  // };
-
-  // addContact = newContact => {
-  //   this.setState(prevState => ({
-  //     contacts: [...prevState.contacts, newContact]
-  //   }));
-  // };
-
-  render() {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Movies">
-          <Stack.Screen name="Movies" component={MovieListScreen} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Movies">
+        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen
+          name="Movies"
+          component={MovieListScreen}
+          options={({ navigation }) => ({
+            headerStyle: {
+              backgroundColor: "#f4511e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            headerRight: () => (
+              <Button
+                title="Search"
+                onPress={() => navigation.navigate("Search")}
+                color="#fff"
+              />
+            ),
+          })}
+        />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
+
+export default App;
