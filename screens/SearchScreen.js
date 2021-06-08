@@ -5,9 +5,11 @@ import {
   KeyboardAvoidingView,
   TextInput,
   StyleSheet,
+  Image,
+  StatusBar,
 } from "react-native";
 
-export default function SearchScreen({ navigation, route }) {
+export default function SearchScreen({ navigation }) {
   const [title, setTitle] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 

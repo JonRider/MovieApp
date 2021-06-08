@@ -6,9 +6,10 @@ const processMovie = (movie) => ({
   poster: movie["Poster"],
 });
 
+// Bugs to fix: need to be able to search for movies with more than one word by using + concatenation
+
 export const find = async (title) => {
   const searchURL = `http://www.omdbapi.com/?apikey=${API_KEY}&s=${title}`;
-  console.log(searchURL);
   const response = await fetch(searchURL);
   const search = await response.json();
   return search["Search"].map(processMovie);

@@ -9,7 +9,6 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { Card } from "react-native-elements";
 import { find } from "../api";
 import MovieCard from "../movieCard";
 
@@ -29,11 +28,19 @@ export default function MovieListScreen({ navigation, route }) {
     }
   }, [route.params?.title]);
 
+  const showDetails = (movie) => {
+    navigation.navigate({
+      name: "Details",
+      params: { movie },
+      merge: true,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         {title !== "" ? (
-          <MovieCard movies={movies} />
+          <MovieCard movies={movies} showDetails={showDetails} />
         ) : (
           <View style={styles.search}>
             <Button
