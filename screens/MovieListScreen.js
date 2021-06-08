@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Button, View, Text, StyleSheet, Image } from "react-native";
+import {
+  Button,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+} from "react-native";
 import { Card } from "react-native-elements";
 import { find } from "../api";
+import MovieCard from "../movieCard";
 
 export default function MovieListScreen({ navigation, route }) {
   const [title, setTitle] = useState("");
@@ -20,67 +30,36 @@ export default function MovieListScreen({ navigation, route }) {
   }, [route.params?.title]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Movie List</Text>
-      <Text style={styles.searchText}>{`You Searched For: ${title}`}</Text>
-      <Card style={styles.card}>
-        <Card.Title>MOVIE RESULTS</Card.Title>
-        <Card.Divider />
-        {movies.map((movie, i) => {
-          return (
-            <View key={i} style={styles.movie}>
-              <Image
-                style={styles.image}
-                resizeMode="cover"
-                source={{ uri: movie.poster }}
-              />
-              <Text style={styles.title}>{movie.title}</Text>
-            </View>
-          );
-        })}
-      </Card>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        {title !== "" ? (
+          <MovieCard movies={movies} />
+        ) : (
+          <View style={styles.search}>
+            <Button
+              style={styles.search}
+              title="Search For a Movie"
+              onPress={() => navigation.navigate("Search")}
+            />
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: StatusBar.currentHeight,
     alignItems: "center",
     justifyContent: "center",
   },
-  card: {
+  scrollView: {
     flex: 1,
+    width: "100%",
   },
-  heading: {
-    fontSize: 28,
-    fontWeight: "bold",
-    paddingBottom: 6,
+  search: {
+    paddingTop: 10,
   },
-  searchText: {
-    fontSize: 18,
-  },
-  movie: {
-    fontSize: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "black",
-    minWidth: 100,
-    marginTop: 20,
-    marginHorizontal: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 3,
-  },
-  image: {
-    borderRadius: 10,
-    width: 60,
-    height: 80,
-  },
-  title: {},
 });
